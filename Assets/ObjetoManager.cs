@@ -13,63 +13,77 @@ public class ObjetoManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < Objetos.Length; i++)
-        {
-            Objetos[i].SetActive(false);
-        }
-
-        CurrentIndex = 0;
+        DeactivateAll();
+        CurrentIndex2 = Objetos.Length - 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            if (CurrentIndex < Objetos.Length)
-            {
-                DeActivateByIndex(CurrentIndex);
-                CurrentIndex++;
-                ActivateByIndex(CurrentIndex);
-            }
-
-            else
-            {
-                DeActivateByIndex(CurrentIndex);
-                CurrentIndex = 0;
-                ActivateByIndex(CurrentIndex);
-            }
-
-        }
-
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (CurrentIndex > Objetos.Length)
+            if (CurrentIndex == Objetos.Length)
             {
-                DeActivateByIndex(CurrentIndex);
-                CurrentIndex--;
+                CurrentIndex = -1;
+            }
+
+            CurrentIndex++;
+
+
+            if (CurrentIndex < Objetos.Length && XD == false)
+            {
+                DeactivateAll();
                 ActivateByIndex(CurrentIndex);
             }
 
-            else
+        }
+
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            CurrentIndex--;
+
+
+
+            if (CurrentIndex < 0)
             {
-                DeActivateByIndex(CurrentIndex);
+                CurrentIndex = 0;
                 CurrentIndex = Objetos.Length - 1;
+                DeactivateAll();
                 ActivateByIndex(CurrentIndex);
+            }
+
+  
+
+
+
+            if (CurrentIndex < Objetos.Length && XD == false)
+            {
+
+                DeactivateAll();
+                ActivateByIndex(CurrentIndex);
+
+            }
+
+
+
+        }
+    }
+
+        void DeactivateAll()
+        {
+            for (int i = 0; i < Objetos.Length; i++)
+            {
+                Objetos[i].SetActive(false);
             }
         }
 
+        void ActivateByIndex(int index)
+        {
+            Objetos[index].SetActive(true);
+        }
 
-
-    }
-
-    void ActivateByIndex(int index)
-    {
-        Objetos[index].SetActive(true);
-    }
-
-    void DeActivateByIndex(int index)
-    {
-        Objetos[index].SetActive(false);
-    }
+        void DeActivateByIndex(int index)
+        {
+            Objetos[index].SetActive(false);
+        }
 }
